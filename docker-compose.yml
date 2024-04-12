@@ -1,0 +1,11 @@
+version: "3"
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      - POSTGRES_USER=personafy
+      - POSTGRES_PASSWORD=personafy
+    ports:
+      - "5434:5434"
+    restart: always

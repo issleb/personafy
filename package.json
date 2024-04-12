@@ -1,0 +1,15 @@
+{
+  "name": "personafy",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:issleb/personafy.git",
+  "author": "Brian Issleb <brian@getvesta.io>",
+  "license": "MIT",
+  "devDependencies": {
+    "prettier": "^3.2.5",
+    "typescript": "^5.4.5"
+  },
+  "dependencies": {
+    "graphile-worker": "^0.16.5"
+  }
+}
