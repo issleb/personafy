@@ -4,8 +4,9 @@ services:
   postgres:
     image: postgres:15-alpine
     environment:
-      - POSTGRES_USER=personafy
-      - POSTGRES_PASSWORD=personafy
+      POSTGRES_USER: personafy
+      POSTGRES_PASSWORD: personafy
+      POSTGRES_DB: personafy
     ports:
-      - "5434:5434"
+      - "5434:5432"
     restart: always
