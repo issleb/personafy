@@ -5,16 +5,19 @@
   "repository": "git@github.com:issleb/personafy.git",
   "author": "Brian Issleb <brian@getvesta.io>",
   "scripts": {
-    "prisma:push": "npx prisma db push",
-    "prisma:ui": "npx prisma studio"
+    "prisma:push": "dotenv -e .env.local -- npx prisma db push",
+    "prisma:ui": "npx prisma studio",
+    "start": "dotenv -e .env.local tsx src/worker.ts"
   },
   "devDependencies": {
     "prettier": "^3.2.5",
     "prisma": "^5.12.1",
+    "tsx": "^4.7.2",
     "typescript": "^5.4.5"
   },
   "dependencies": {
     "@prisma/client": "^5.12.1",
+    "dotenv-cli": "^7.4.1",
     "graphile-worker": "^0.16.5"
   }
 }

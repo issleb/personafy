@@ -10,7 +10,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = "postgres://personafy:personafy@localhost:5434/personafy"
+  url      = env("DATABASE_URL")
 }
 
 model Persona {
