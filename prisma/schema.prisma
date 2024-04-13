@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -13,8 +7,45 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Prompt {
+  id            String         @id @default(cuid())
+  createdAt     DateTime       @default(now())
+  name          String
+  context       String
+  conversations Conversation[]
+}
+
 model Persona {
+  id            String         @id @default(cuid())
+  createdAt     DateTime       @default(now())
+  name          String
+  context       String
+  conversations Conversation[]
+}
+
+model Conversation {
   id        String   @id @default(cuid())
   createdAt DateTime @default(now())
-  name      String
+
+  prompt    Prompt    @relation(fields: [promptId], references: [id])
+  promptId  String
+  persona   Persona   @relation(fields: [personaId], references: [id])
+  personaId String
+  messages  Message[]
+}
+
+model Message {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  content   String
+
+  role MessageRole
+
+  conversation   Conversation @relation(fields: [conversationId], references: [id])
+  conversationId String
+}
+
+enum MessageRole {
+  CALLER
+  RESPONDENT
 }

@@ -16,6 +16,7 @@
     "typescript": "^5.4.5"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.20.4",
     "@prisma/client": "^5.12.1",
     "dotenv-cli": "^7.4.1",
     "graphile-worker": "^0.16.5"
