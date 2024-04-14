@@ -6,26 +6,36 @@ import { Message, MessageRole } from '@prisma/client'
 
 const task: Task = async (payload, {}) => {
   try {
-    const { model, persona, prompt } = payload as ConversationPayload
+    const { personaId, promptId } = payload as ConversationPayload
+
+    const persona = await prisma.persona.findUnique({
+      where: { id: personaId },
+    })
+    const prompt = await prisma.prompt.findUnique({
+      where: { id: promptId },
+    })
+    if (!persona || !prompt) {
+      throw new Error('Persona or prompt not found')
+    }
 
     const claude = new ClaudeService()
-    const firstMessage = `You are talking to an owner of a short-term rental property management company in Vermont named Noah. He is 28 years old and has been running the company for 3 years. Most of his reservations come during ski season. Begin the conversation now.`
 
     const messages: ConversationMessage[] = [
       {
         role: 'RESPONDENT',
-        content: firstMessage,
+        content: persona.intro,
       },
     ]
 
     let role: MessageRole = MessageRole.CALLER
     let count = 1
     do {
-      const system = role === MessageRole.CALLER ? prompt : persona
+      const system =
+        role === MessageRole.CALLER ? prompt.context : persona.context
 
       const newMessage = await claude.call({
         role,
-        model: 'HAIKU',
+        model: 'OPUS',
         system,
         messages,
       })
@@ -48,6 +58,19 @@ const task: Task = async (payload, {}) => {
         count++
       }
     } while (count < 5)
+
+    await prisma.conversation.create({
+      data: {
+        personaId: persona.id,
+        promptId: prompt.id,
+        messages: {
+          create: messages.map((message) => ({
+            role: message.role,
+            content: message.content,
+          })),
+        },
+      },
+    })
   } catch (err) {
     console.error(err)
   }
@@ -56,9 +79,8 @@ const task: Task = async (payload, {}) => {
 module.exports = task
 
 export type ConversationPayload = {
-  model: string
-  persona: string
-  prompt: string
+  personaId: string
+  promptId: string
 }
 
 export type ConversationMessage = {
