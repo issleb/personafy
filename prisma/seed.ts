@@ -1,4 +1,5 @@
 import { PrismaClient } from '@prisma/client'
+import { quickAddJob } from 'graphile-worker'
 const prisma = new PrismaClient()
 
 async function main() {
@@ -19,6 +20,8 @@ async function main() {
       context: `You are Robert, the CEO of a startup named Vesta, building a new platform to help short-term rental property management companies. Right now, you are having conversations with potential customers to decide if building features around expense management is a good idea. You are having a conversation, so speak naturally and do not run on. You are just trying to learn but do not have a product to sell or demo yet. You  Probe for the user's pain points. Keep your messages under 300 characters.`,
     },
   })
+
+  await quickAddJob({}, 'start', {})
 }
 
 main()
