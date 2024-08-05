@@ -35,7 +35,7 @@ const task: Task = async (payload, {}) => {
 
       const newMessage = await claude.call({
         role,
-        model: 'OPUS',
+        model: 'SONNET',
         system,
         messages,
       })

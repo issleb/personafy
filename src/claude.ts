@@ -49,7 +49,7 @@ export class ClaudeService {
 const mapModel = (model: 'HAIKU' | 'SONNET' | 'OPUS') => {
   const modelMap = {
     OPUS: 'claude-3-opus-20240229',
-    SONNET: 'claude-3-sonnet-20240229',
+    SONNET: 'claude-3-5-sonnet-20240620',
     HAIKU: 'claude-3-haiku-20240307',
   }
 
