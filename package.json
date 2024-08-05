@@ -5,6 +5,7 @@
   "repository": "git@github.com:issleb/personafy.git",
   "author": "Brian Issleb <brian@getvesta.io>",
   "scripts": {
+    "lint": "eslint",
     "prisma:push": "dotenv -e .env.local -- npx prisma db push",
     "prisma:migrate": "dotenv -e .env.local -- npx prisma migrate dev",
     "prisma:reset": "dotenv -e .env.local -- npx prisma migrate reset",
@@ -15,10 +16,14 @@
     "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} --transpile-only prisma/seed.ts"
   },
   "devDependencies": {
+    "@eslint/js": "^9.8.0",
+    "@types/eslint__js": "^8.42.3",
+    "eslint": "^9.8.0",
     "prettier": "^3.2.5",
     "prisma": "^5.12.1",
     "tsx": "^4.7.2",
-    "typescript": "^5.4.5"
+    "typescript": "^5.5.4",
+    "typescript-eslint": "^8.0.0"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.20.4",
