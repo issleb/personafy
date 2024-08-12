@@ -5,6 +5,7 @@
   "repository": "git@github.com:issleb/personafy.git",
   "author": "Brian Issleb <brian@getvesta.io>",
   "scripts": {
+    "add-conversation": "dotenv -e .env.local tsx src/add-conversation.ts",
     "lint": "eslint",
     "dev": "concurrently -n START,TS -c magenta,cyan \"yarn start\" \"yarn ts --watch\"",
     "prisma:push": "dotenv -e .env.local -- npx prisma db push",

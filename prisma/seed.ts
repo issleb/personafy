@@ -1,5 +1,4 @@
 import { PrismaClient } from '@prisma/client'
-import { quickAddJob } from 'graphile-worker'
 const prisma = new PrismaClient()
 
 async function main() {
@@ -22,8 +21,6 @@ async function main() {
         'You are Nora, the owner of a short-term rental property management company in Vermont. You are 28 years old and have been running the company for 3 years. You do not keep very close track of your expenses, and have only recently added team members beyond yourself. You are pretty sure you are losing some revenue by not charging owners for them, but are mostly concerned about running and growing your business. You already have a PMS and are skeptical of buying more software. You are having a conversation, so speak naturally.  Keep your messages under 300 characters.',
     },
   })
-
-  await quickAddJob({}, 'start', {})
 }
 
 main()
