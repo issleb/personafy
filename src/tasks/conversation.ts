@@ -1,76 +1,29 @@
-import Anthropic from '@anthropic-ai/sdk'
-import { ClaudeService } from 'claude'
 import type { Task } from 'graphile-worker'
 import { prisma } from 'db'
-import { Message, MessageRole } from '@prisma/client'
+import { AgentService } from 'agent'
+import { Persona } from '@prisma/client'
 
-const task: Task = async (payload, {}) => {
+const task: Task = async (payload) => {
   try {
-    const { personaId, promptId } = payload as ConversationPayload
+    const { personaIds, iterations } = payload as ConversationPayload
 
-    const persona = await prisma.persona.findUnique({
-      where: { id: personaId },
+    const personas = await Promise.all([
+      prisma.persona.findUniqueOrThrow({ where: { id: personaIds[0] } }),
+      prisma.persona.findUniqueOrThrow({ where: { id: personaIds[1] } }),
+    ])
+
+    const conversation = await prisma.conversation.create({
+      data: {},
     })
-    const prompt = await prisma.prompt.findUnique({
-      where: { id: promptId },
-    })
-    if (!persona || !prompt) {
-      throw new Error('Persona or prompt not found')
-    }
+    const agents = await getAgents(conversation.id, personas)
 
-    const claude = new ClaudeService()
+    let message = await talk(agents, 'BEGIN')
 
-    const messages: ConversationMessage[] = [
-      {
-        role: 'RESPONDENT',
-        content: persona.intro,
-      },
-    ]
-
-    let role: MessageRole = MessageRole.CALLER
-    let count = 1
+    let count = 0
     do {
-      const system =
-        role === MessageRole.CALLER ? prompt.context : persona.context
-
-      const newMessage = await claude.call({
-        role,
-        model: 'SONNET',
-        system,
-        messages,
-      })
-
-      const content = newMessage.content[0]?.text
-      if (!content) {
-        throw new Error('No message content')
-      }
-      console.log(`${role}: "${content}"`)
-
-      messages.push({
-        role,
-        content,
-      })
-
-      if (role === MessageRole.CALLER) {
-        role = MessageRole.RESPONDENT
-      } else {
-        role = MessageRole.CALLER
-        count++
-      }
-    } while (count < 5)
-
-    await prisma.conversation.create({
-      data: {
-        personaId: persona.id,
-        promptId: prompt.id,
-        messages: {
-          create: messages.map((message) => ({
-            role: message.role,
-            content: message.content,
-          })),
-        },
-      },
-    })
+      message = await talk(agents, message)
+      count++
+    } while (count < iterations)
   } catch (err) {
     console.error(err)
   }
@@ -78,12 +31,35 @@ const task: Task = async (payload, {}) => {
 
 module.exports = task
 
-export type ConversationPayload = {
-  personaId: string
-  promptId: string
+export interface ConversationPayload {
+  personaIds: [string, string]
+  iterations: number
 }
 
-export type ConversationMessage = {
-  content: string
-  role: MessageRole
+const getAgents = async (
+  conversationId: string,
+  personas: Persona[]
+): Promise<[AgentService, AgentService]> => {
+  const agents = personas.map(
+    ({ name, context, id }) =>
+      new AgentService({
+        conversationId,
+        name,
+        context,
+        personas: personas.filter((p) => p.id !== id).map((p) => p.intro),
+      })
+  )
+  if (!agents[0] || !agents[1]) {
+    throw new Error('This should never happen.')
+  }
+
+  await Promise.all(agents.map((agent) => agent.create(conversationId)))
+
+  return [agents[0], agents[1]]
+}
+
+const talk = async (agents: [AgentService, AgentService], message: string) => {
+  const newMessage = await agents[0].call(message)
+  const response = await agents[1].call(newMessage)
+  return response
 }

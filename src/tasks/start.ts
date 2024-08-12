@@ -1,14 +1,14 @@
 import type { Task } from 'graphile-worker'
 import { ConversationPayload } from './conversation'
 
-const task: Task = async (payload, { addJob }) => {
+const task: Task = async (_payload, { addJob }) => {
   try {
     const message: ConversationPayload = {
-      personaId: '1',
-      promptId: '1',
+      personaIds: ['1', '2'],
+      iterations: 5,
     }
 
-    addJob('conversation', message)
+    await addJob('conversation', message)
   } catch (err) {
     console.error(err)
   }

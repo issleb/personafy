@@ -1,48 +1,42 @@
 import Anthropic from '@anthropic-ai/sdk'
 import { MessageParam } from '@anthropic-ai/sdk/resources/messages'
-import { MessageRole } from '@prisma/client'
-import { ConversationMessage } from 'tasks/conversation'
+import { Message, MessageRole } from '@prisma/client'
 
-type CallParams = {
-  role: MessageRole
+interface CallParams {
   system: string
-  messages: ConversationMessage[]
+  messages: Message[]
   model: 'HAIKU' | 'SONNET' | 'OPUS'
 }
 
 export class ClaudeService {
   protected readonly client: Anthropic
+  protected model: string
+
   public constructor() {
     this.client = new Anthropic({
       apiKey: process.env.ANTHROPIC_API_KEY,
     })
+    this.model = mapModel('OPUS')
   }
-  public async call({ role, model, system, messages }: CallParams) {
+  public async call({ system, messages }: CallParams) {
     const claudeMessages: MessageParam[] = messages.map((message) => ({
-      role:
-        role === 'CALLER'
-          ? message.role === 'CALLER'
-            ? 'assistant'
-            : 'user'
-          : message.role === 'CALLER'
-            ? 'user'
-            : 'assistant',
+      role: message.role === MessageRole.USER ? 'user' : 'assistant',
       content: message.content,
     }))
-    if (role === 'RESPONDENT') {
-      claudeMessages.shift()
-    }
-
-    //console.log(role, claudeMessages)
 
     const msg = await this.client.messages.create({
-      model: mapModel(model),
+      model: this.model,
       max_tokens: 1024,
       system,
       messages: claudeMessages,
     })
 
-    return msg
+    const content = msg.content[0]?.text
+    if (!content) {
+      throw new Error('No message content.')
+    }
+
+    return content
   }
 }
 

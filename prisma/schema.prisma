@@ -7,46 +7,44 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Prompt {
-  id            String         @id @default(cuid())
-  createdAt     DateTime       @default(now())
-  name          String
-  context       String
-  conversations Conversation[]
-}
-
 model Persona {
-  id            String         @id @default(cuid())
-  createdAt     DateTime       @default(now())
-  name          String
-  context       String
-  intro         String
-  conversations Conversation[]
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  name      String
+  context   String
+  intro     String
 }
 
 model Conversation {
   id        String   @id @default(cuid())
   createdAt DateTime @default(now())
 
-  prompt    Prompt    @relation(fields: [promptId], references: [id])
-  promptId  String
-  persona   Persona   @relation(fields: [personaId], references: [id])
-  personaId String
-  messages  Message[]
+  agent Agent[]
+}
+
+model Agent {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  name      String
+  context   String
+
+  Conversation   Conversation @relation(fields: [conversationId], references: [id])
+  conversationId String
+
+  Message Message[]
 }
 
 model Message {
-  id        String   @id @default(cuid())
-  createdAt DateTime @default(now())
+  id        String      @id @default(cuid())
+  createdAt DateTime    @default(now())
   content   String
+  role      MessageRole
 
-  role MessageRole
-
-  conversation   Conversation @relation(fields: [conversationId], references: [id])
-  conversationId String
+  Agent   Agent?  @relation(fields: [agentId], references: [id])
+  agentId String?
 }
 
 enum MessageRole {
-  CALLER
-  RESPONDENT
+  USER
+  AGENT
 }
