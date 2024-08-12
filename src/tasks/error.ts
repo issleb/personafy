@@ -1,6 +1,6 @@
 import type { Task } from 'graphile-worker'
 
-const task: Task = async (payload, {}) => {
+const task: Task = async () => {
   try {
     throw new Error('Worker error test')
   } catch (err) {

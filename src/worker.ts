@@ -12,6 +12,7 @@ async function main() {
         .filter((file) => file.endsWith('.ts'))
         .map((taskFile) => [
           parse(taskFile).name,
+          // eslint-disable-next-line @typescript-eslint/no-require-imports
           require(join(taskDirectory, taskFile)) as Task,
         ])
     )
