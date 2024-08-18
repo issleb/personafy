@@ -1,6 +1,7 @@
 import { Message, MessageRole } from '@prisma/client'
-import { ClaudeService } from 'claude'
-import { prisma } from 'db'
+
+import { ClaudeService } from './claude'
+import { prisma } from './db'
 
 interface AgentParams {
   conversationId: string

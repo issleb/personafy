@@ -2,38 +2,11 @@
   "name": "personafy",
   "version": "1.0.0",
   "main": "index.js",
+  "private": true,
   "repository": "git@github.com:issleb/personafy.git",
   "author": "Brian Issleb",
-  "scripts": {
-    "add-conversation": "dotenv -e .env.local tsx src/add-conversation.ts",
-    "lint": "eslint",
-    "dev": "concurrently -n START,TS -c magenta,cyan \"yarn start\" \"yarn ts --watch\"",
-    "prisma:push": "dotenv -e .env.local -- npx prisma db push",
-    "prisma:migrate": "dotenv -e .env.local -- npx prisma migrate dev",
-    "prisma:reset": "dotenv -e .env.local -- npx prisma migrate reset",
-    "prisma:ui": "dotenv -e .env.local -- npx prisma studio",
-    "start": "dotenv -e .env.local tsx watch src/worker.ts",
-    "ts": "tsc --noEmit --incremental --preserveWatchOutput --pretty"
-  },
-  "prisma": {
-    "seed": "npx ts-node --compiler-options {\"module\":\"CommonJS\"} --transpile-only prisma/seed.ts"
-  },
-  "devDependencies": {
-    "@eslint/js": "^9.8.0",
-    "@types/eslint__js": "^8.42.3",
-    "eslint": "^9.8.0",
-    "prettier": "^3.2.5",
-    "prisma": "^5.12.1",
-    "ts-node": "^10.9.2",
-    "tsx": "^4.7.2",
-    "typescript": "^5.5.4",
-    "typescript-eslint": "^8.0.0"
-  },
-  "dependencies": {
-    "@anthropic-ai/sdk": "^0.20.4",
-    "@prisma/client": "^5.12.1",
-    "concurrently": "^8.2.2",
-    "dotenv-cli": "^7.4.1",
-    "graphile-worker": "^0.16.5"
-  }
+  "scripts": {},
+  "workspaces": [
+    "packages/*"
+  ]
 }

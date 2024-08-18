@@ -2,4 +2,6 @@
 
 # dependencies
 /node_modules
-/.env.local
+.env.local
+/packages/server/node_modules
+/tsconfig.tsbuildinfo

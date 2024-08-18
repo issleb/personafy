@@ -1,10 +1,13 @@
 import type { Task } from 'graphile-worker'
-import { prisma } from 'db'
-import { AgentService } from 'agent'
+
 import { Persona } from '@prisma/client'
+import { prisma } from '../db'
+import { AgentService } from '../agent'
 
 const task: Task = async (payload) => {
   try {
+    console.log('Starting conversation')
+
     const { personaIds, iterations } = payload as ConversationPayload
 
     const personas = await Promise.all([
@@ -22,6 +25,7 @@ const task: Task = async (payload) => {
     let count = 0
     do {
       message = await talk(agents, message)
+
       count++
     } while (count < iterations)
   } catch (err) {
@@ -61,5 +65,8 @@ const getAgents = async (
 const talk = async (agents: [AgentService, AgentService], message: string) => {
   const newMessage = await agents[0].call(message)
   const response = await agents[1].call(newMessage)
+
+  console.log(`Agent 0: ${newMessage}`)
+  console.log(`Agent 1: ${response}`)
   return response
 }
