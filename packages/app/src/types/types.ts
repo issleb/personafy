@@ -5,7 +5,7 @@ export interface Agent {
 
 export interface Message {
   id: string
-  timestamp: Date
+  timestamp: string
   agent: Agent
   content: string
 

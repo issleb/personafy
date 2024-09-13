@@ -5,7 +5,7 @@ export const sampleConversation: Conversation = {
   messages: [
     {
       id: 'msg1',
-      timestamp: new Date('2024-08-28T10:00:00Z'),
+      timestamp: '2024-08-28T10:00:00Z',
       agent: {
         id: 'user1',
         name: 'User',
@@ -15,7 +15,7 @@ export const sampleConversation: Conversation = {
     },
     {
       id: 'msg2',
-      timestamp: new Date('2024-08-28T10:01:00Z'),
+      timestamp: '2024-08-28T10:01:00Z',
       agent: {
         id: 'agent1',
         name: 'Code Helper',
@@ -26,7 +26,7 @@ export const sampleConversation: Conversation = {
     },
     {
       id: 'msg3',
-      timestamp: new Date('2024-08-28T10:02:00Z'),
+      timestamp: '2024-08-28T10:02:00Z',
       agent: {
         id: 'user1',
         name: 'User',
@@ -37,7 +37,7 @@ export const sampleConversation: Conversation = {
     },
     {
       id: 'msg4',
-      timestamp: new Date('2024-08-28T10:03:00Z'),
+      timestamp: '2024-08-28T10:03:00Z',
       agent: {
         id: 'agent1',
         name: 'Code Helper',

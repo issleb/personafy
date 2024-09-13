@@ -1,4 +1,5 @@
 import { Paper, Text } from '@mantine/core'
+import { DateTime } from 'luxon'
 import { Message } from '../../types/types'
 
 export interface MessageBubbleProps {
@@ -25,7 +26,7 @@ const MessageBubble = ({ message, isAgent }: MessageBubbleProps) => (
       ta="right"
       mt={5}
     >
-      {new Date(message.timestamp).toLocaleTimeString()}
+      {DateTime.fromISO(message.timestamp).toFormat('cccc, LLL dd hh:mm a')}
     </Text>
   </Paper>
 )
