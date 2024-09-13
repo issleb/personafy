@@ -14,8 +14,9 @@ Personafy is a Graphile worker app that runs a conversations between two AIs wit
 
 ### Set up the database
 
-To create the database, run the following command in the project folder your favorite terminal:
+To create the database, navigate to *packages/server* and run the following command in your favorite terminal:
 
+`yarn`
 `docker compose up`
 
 Push the database schema up to your newly created database:
@@ -28,6 +29,12 @@ To seed the database or reset:
 
 ### Running the worker
 
-This will start the graphile worker and run an intial converstion that was seeded to the queue:
+To start the graphile worker and run an intial converstion that was seeded to the queue, in the server folder run:
 
 `yarn start`
+
+### Running the app
+
+To start the web app, navigate to *packages/app* and run:
+
+`yarn dev`
