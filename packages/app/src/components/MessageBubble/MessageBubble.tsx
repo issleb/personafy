@@ -10,6 +10,7 @@ const MessageBubble = ({ message, isAgent }: MessageBubbleProps) => (
   <Paper
     p="md"
     withBorder
+    radius="md"
     style={{
       maxWidth: '70%',
       alignSelf: isAgent ? 'flex-start' : 'flex-end',
