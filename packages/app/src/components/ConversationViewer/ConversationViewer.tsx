@@ -21,15 +21,15 @@ const ConversationViewer = ({ conversation }: ConversationViewerProps) => {
               align="flex-start"
             >
               {message.isAgent && (
-                <Avatar color="blue" radius="xl">
-                  {message.agent.name}
-                </Avatar>
+                <Avatar name={message.agent.name} color="blue" radius="xl" />
               )}
               <MessageBubble message={message} isAgent={message.isAgent} />
               {!message.isAgent && (
-                <Avatar color="green" radius="xl">
-                  U
-                </Avatar>
+                <Avatar
+                  name={message.agent.name}
+                  color="green"
+                  radius="xl"
+                ></Avatar>
               )}
             </Group>
           ))}

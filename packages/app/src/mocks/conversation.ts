@@ -18,7 +18,7 @@ export const sampleConversation: Conversation = {
       timestamp: new Date('2024-08-28T10:01:00Z'),
       agent: {
         id: 'agent1',
-        name: 'CodeHelper',
+        name: 'Code Helper',
       },
       content:
         "Of course! I'd be happy to help. What's the coding problem you're facing?",
@@ -40,7 +40,7 @@ export const sampleConversation: Conversation = {
       timestamp: new Date('2024-08-28T10:03:00Z'),
       agent: {
         id: 'agent1',
-        name: 'CodeHelper',
+        name: 'Code Helper',
       },
       content:
         'I see. Can you share the component code? That will help me identify the issue and provide a solution.',
