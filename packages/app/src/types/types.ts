@@ -8,8 +8,6 @@ export interface Message {
   timestamp: string
   agent: Agent
   content: string
-
-  isAgent: boolean
 }
 
 export interface Conversation {

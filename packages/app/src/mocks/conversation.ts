@@ -11,7 +11,6 @@ export const sampleConversation: Conversation = {
         name: 'User',
       },
       content: 'Hello! Can you help me with a coding problem?',
-      isAgent: false,
     },
     {
       id: 'msg2',
@@ -22,7 +21,6 @@ export const sampleConversation: Conversation = {
       },
       content:
         "Of course! I'd be happy to help. What's the coding problem you're facing?",
-      isAgent: true,
     },
     {
       id: 'msg3',
@@ -33,7 +31,6 @@ export const sampleConversation: Conversation = {
       },
       content:
         "I'm having trouble with a React component. It's not rendering properly.",
-      isAgent: false,
     },
     {
       id: 'msg4',
@@ -44,7 +41,6 @@ export const sampleConversation: Conversation = {
       },
       content:
         'I see. Can you share the component code? That will help me identify the issue and provide a solution.',
-      isAgent: true,
     },
   ],
 }

@@ -4,26 +4,26 @@ import { Message } from '../../types/types'
 
 export interface MessageBubbleProps {
   message: Message
-  isAgent: boolean
+  position: 'left' | 'right'
 }
 
-const MessageBubble = ({ message, isAgent }: MessageBubbleProps) => (
+const MessageBubble = ({ message, position }: MessageBubbleProps) => (
   <Paper
     p="md"
     withBorder
     radius="md"
     style={{
       maxWidth: '70%',
-      backgroundColor: isAgent ? '#f1f3f5' : '#228be6',
-      color: isAgent ? 'inherit' : 'white',
+      backgroundColor: position === 'left' ? '#f1f3f5' : '#228be6',
+      color: position === 'left' ? 'inherit' : 'white',
     }}
   >
-    <Text size="sm" ta={isAgent ? 'left' : 'right'}>
+    <Text size="sm" ta={position}>
       {message.content}
     </Text>
     <Text
       size="xs"
-      c={isAgent ? 'dimmed' : 'rgba(255, 255, 255, 0.7)'}
+      c={position === 'left' ? 'dimmed' : 'rgba(255, 255, 255, 0.7)'}
       ta="right"
       mt={5}
     >
